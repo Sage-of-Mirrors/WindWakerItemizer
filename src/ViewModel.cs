@@ -33,7 +33,7 @@ namespace WindWakerItemizer
                 mSelectedIndex = value;
                 OnPropertyChanged();
 
-                SelectedConfig = mModel.GetConfig(value);
+                SelectedConfig = mModel.GetConfig(mSelectedIndex);
             }
         }
 
@@ -45,12 +45,6 @@ namespace WindWakerItemizer
                 mSelectedConfig = value;
                 OnPropertyChanged();
             }
-        }
-
-        public Items Items
-        {
-            get;
-            set;
         }
 
         private Model mModel;
@@ -72,6 +66,9 @@ namespace WindWakerItemizer
             {
                 Trace.WriteLine(string.Format("Failed to load data from \"{0}\"!", fileName));
             }
+
+            OnPropertyChanged("ActorNames");
+            SelectedIndex = 0;
         }
 
         #region Exit command

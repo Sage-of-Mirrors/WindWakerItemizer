@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace WindWakerItemizer
 {
@@ -20,12 +21,19 @@ namespace WindWakerItemizer
 
         public ObservableCollection<string> GetActorNames()
         {
-            return new ObservableCollection<string>() { "test" };
+            ObservableCollection<string> names = new ObservableCollection<string>();
+
+            foreach (ItemDropConfig cfg in mConfigs)
+            {
+                names.Add(cfg.ActorName);
+            }
+
+            return names;
         }
 
         public ItemDropConfig? GetConfig(int idx)
         {
-            if (idx < 0 || idx <= mConfigs.Count)
+            if (idx < 0 || idx >= mConfigs.Count)
             {
                 return null;
             }
@@ -35,6 +43,41 @@ namespace WindWakerItemizer
 
         public bool Deserialize(string fileName)
         {
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
+
+            using (EndianStreamReader reader = new EndianStreamReader(fileName))
+            {
+                reader.Seek(0x14);
+                uint actorCount = reader.ReadUInt();
+                uint actorNamesOffset = reader.ReadUInt();
+                reader.Skip(8);
+                uint configDataOffset = reader.ReadUInt();
+
+                reader.Seek(actorNamesOffset);
+                for (uint i = 0; i < actorCount; i++)
+                {
+                    uint nameOffset = reader.ReadUInt();
+
+                    long curPos = reader.Tell();
+                    reader.Seek(nameOffset);
+
+                    string name = reader.ReadString();
+                    mConfigs.Add(new ItemDropConfig(name));
+
+                    reader.Seek(curPos);
+                }
+
+                reader.Seek(configDataOffset);
+
+                foreach(ItemDropConfig cfg in mConfigs)
+                {
+                    cfg.Deserialize(reader);
+                }
+            }
+
             return true;
         }
     }

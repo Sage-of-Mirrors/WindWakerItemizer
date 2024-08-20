@@ -84,8 +84,20 @@ namespace WindWakerItemizer
             mActorName = actorName;
         }
 
-        public bool Deserialize()
+        public bool Deserialize(EndianStreamReader reader)
         {
+            Arg = reader.ReadByte();
+            for (int i = 0; i < 16; i++)
+            {
+                LooseItems[i] = reader.ReadByte();
+            }
+
+            ItemBallDropChance = reader.ReadByte();
+            for (int i = 0; i < 8; i++)
+            {
+                ItemBallContents[i] = reader.ReadByte();
+            }
+
             return true;
         }
 

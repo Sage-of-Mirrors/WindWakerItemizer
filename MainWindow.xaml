@@ -39,7 +39,7 @@
             </MenuItem>
         </Menu>
         <DockPanel Margin="10,23,0,10" HorizontalAlignment="Left" Width="180">
-            <ListBox ItemsSource="{Binding ActorNames}" SelectedIndex="{Binding SelectedIndex}"/>
+            <ListBox Name="ConfigListBox" ItemsSource="{Binding ActorNames}" SelectedIndex="{Binding SelectedIndex}"/>
         </DockPanel>
         <DockPanel Margin="195,23,0,0" HorizontalAlignment="Left" Width="595" Height="Auto" VerticalAlignment="Top">
             <Label DockPanel.Dock="Left">Actor Name:</Label>
