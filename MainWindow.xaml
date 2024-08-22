@@ -7,7 +7,7 @@
         xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Wind Waker Itemizer" Height="480" Width="800">
+        Title="Wind Waker Itemizer" Height="455" Width="800" ResizeMode="CanResizeWithGrip">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Open"
                         Executed="ApplicationCommandOpenExecuted"
@@ -38,50 +38,65 @@
                 <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
         </Menu>
-        <DockPanel Margin="10,23,0,10" HorizontalAlignment="Left" Width="180">
+        <DockPanel Margin="10,23,0,52" LastChildFill="True" HorizontalAlignment="Left" Width="180">
             <ListBox Name="ConfigListBox" ItemsSource="{Binding ActorNames}" SelectedIndex="{Binding SelectedIndex}"/>
         </DockPanel>
-        <DockPanel Margin="195,23,0,0" HorizontalAlignment="Left" Width="595" Height="Auto" VerticalAlignment="Top">
-            <Label DockPanel.Dock="Left">Actor Name:</Label>
-            <TextBox DockPanel.Dock="Right" Height="20" Text="{Binding SelectedConfig.ActorName}" Width="500" Margin="0,0,10,0"></TextBox>
+        <DockPanel Margin="10,0,0,8" LastChildFill="True" HorizontalAlignment="Left" Width="180" Height="38" VerticalAlignment="Bottom">
+            <Button Command="{Binding AddConfigCommand}" Width="180" Height="34">Add Config</Button>
         </DockPanel>
-        <DockPanel Margin="200,54,10,0" Height="200" VerticalAlignment="Top" LastChildFill="True">
+        <DockPanel Margin="195,13,10,0" Height="Auto" VerticalAlignment="Top">
+            <GroupBox Header="Info">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Left">
+                        <StackPanel Orientation="Vertical">
+                            <Label>Config Name:</Label>
+                            <Label>Argument:</Label>
+                            <Label>% Chance of Item Ball:</Label>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel DockPanel.Dock="Right">
+                        <StackPanel>
+                            <TextBox Text="{Binding SelectedConfig.ActorName}" Margin="0,3,0,5" Height="20"/>
+                            <xceed:IntegerUpDown Value="{Binding SelectedConfig.Arg}" FlowDirection="RightToLeft" Minimum="0" Maximum="255" Margin="0,1,0,5" Height="20"/>
+                            <xceed:IntegerUpDown Value="{Binding SelectedConfig.ItemBallDropChance}" FlowDirection="RightToLeft" Minimum="0" Maximum="100" Margin="0,1,0,5" Height="20"/>
+                        </StackPanel>
+                    </DockPanel>
+                </DockPanel>
+            </GroupBox>
+        </DockPanel>
+        <DockPanel Margin="195,121,10,0" Height="154" VerticalAlignment="Top" LastChildFill="True">
             <GroupBox Header="Loose Items">
                 <UniformGrid>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[0]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[1]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[2]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[3]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[4]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[5]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[6]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[7]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[8]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[9]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[10]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[11]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[12]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[13]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[14]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[15]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[0]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[1]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[2]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[3]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[4]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[5]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[6]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[7]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[8]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[9]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[10]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[11]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[12]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[13]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[14]}"/>
+                    <ComboBox Margin="5,2,2,5" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.LooseItems[15]}"/>
                 </UniformGrid>
             </GroupBox>
         </DockPanel>
-        <DockPanel Margin="195,254,10,184" LastChildFill="True">
-            <Label DockPanel.Dock="Left">% Chance of Item Ball:</Label>
-            <xceed:IntegerUpDown DockPanel.Dock="Right" Value="{Binding SelectedConfig.ItemBallDropChance}" Minimum="0" Maximum="100" Height="18" Width="450"/>
-        </DockPanel>
-        <DockPanel Margin="195,280,10,10">
+        <DockPanel Margin="195,280,10,0" Height="85" VerticalAlignment="Top">
             <GroupBox Header="Item Ball Contents">
-                <UniformGrid>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[0]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[1]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[2]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[3]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[4]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[5]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[6]}"/>
-                    <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[7]}"/>
+                <UniformGrid Columns="4">
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[0]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[1]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[2]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[3]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[4]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[5]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[6]}"/>
+                    <ComboBox Margin="5,2,2,3" ItemsSource="{Binding Source={StaticResource EnumDataSource}}" SelectedIndex="{Binding SelectedConfig.ItemBallContents[7]}"/>
                 </UniformGrid>
             </GroupBox>
         </DockPanel>

@@ -25,7 +25,7 @@ namespace WindWakerItemizer
             DataContext = new ViewModel();
         }
 
-        #region Open command
+        #region Open Command
         private void ApplicationCommandOpenExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -49,15 +49,31 @@ namespace WindWakerItemizer
         }
         #endregion
 
-        #region Save command
+        #region Save Command
         private void ApplicationCommandSaveExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = "ActorDat";
+            saveFileDialog.DefaultExt = ".bin";
+            saveFileDialog.Filter = "Enemy Item Drops (*.bin)|*.bin";
 
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                if (DataContext is ViewModel ctx)
+                {
+                    ctx.OnSaveCommandExecuted(saveFileDialog.FileName);
+                }
+            }
         }
 
         private void ApplicationCommandSaveCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = false;
+
+            if (DataContext is ViewModel ctx)
+            {
+                e.CanExecute = ctx.CanSaveCommandExecute();
+            }
         }
         #endregion
     }

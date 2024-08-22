@@ -9,10 +9,14 @@ namespace WindWakerItemizer
 {
     internal class RelayCommand : ICommand
     {
+        #region Fields
         private readonly Action<object?>? _execute;
         private readonly Predicate<object?>? _canExecute;
+        #endregion
 
+        #region Properties
         public event EventHandler? CanExecuteChanged;
+        #endregion
 
         public RelayCommand(Action<object?>? execute) : this(execute, null)
         {

@@ -14,12 +14,13 @@ namespace WindWakerItemizer
 {
     internal class ViewModel : INotifyPropertyChanged
     {
-        #region Relay commands
-        public RelayCommand ExitCommand { get; set; }
+        #region Fields
+        private Model mModel;
+        private int mSelectedIndex;
+        private ItemDropConfig? mSelectedConfig;
         #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        #region Properties
         public ObservableCollection<string> ActorNames
         {
             get => mModel.GetActorNames();
@@ -33,7 +34,7 @@ namespace WindWakerItemizer
                 mSelectedIndex = value;
                 OnPropertyChanged();
 
-                SelectedConfig = mModel.GetConfig(mSelectedIndex);
+                SelectedConfig = mModel.GetConfigAtIndex(mSelectedIndex);
             }
         }
 
@@ -46,17 +47,19 @@ namespace WindWakerItemizer
                 OnPropertyChanged();
             }
         }
-
-        private Model mModel;
-        private int mSelectedIndex;
-        private ItemDropConfig? mSelectedConfig;
+        #endregion
 
         public ViewModel()
         {
-            ExitCommand = new RelayCommand(OnExitCommandExecuted, (X) => true);
-
             mModel = new Model();
+
+            ExitCommand = new RelayCommand(OnExitCommandExecuted, (X) => true);
+            AddConfigCommand = new RelayCommand(OnAddCommandExecuted, CanAddCommandExecute);
         }
+
+        #region Relay commands
+        public RelayCommand ExitCommand { get; set; }
+        public RelayCommand AddConfigCommand { get; set; }
 
         public void OnOpenCommandExecuted(string fileName)
         {
@@ -69,18 +72,59 @@ namespace WindWakerItemizer
 
             OnPropertyChanged("ActorNames");
             SelectedIndex = 0;
+
+            AddConfigCommand.RaiseCanExecuteChanged();
         }
 
-        #region Exit command
+        public void OnSaveCommandExecuted(string fileName)
+        {
+            bool result = mModel.Serialize(fileName);
+
+            if (!result)
+            {
+                Trace.WriteLine(string.Format("Failed to save data to \"{0}\"!", fileName));
+            }
+        }
+
+        public bool CanSaveCommandExecute()
+        {
+            return mModel.HasLoaded;
+        }
+
+        public void OnAddCommandExecuted(object? sender)
+        {
+            mModel.AddConfig();
+
+            OnPropertyChanged("ActorNames");
+            SelectedIndex = mModel.ConfigCount - 1;
+        }
+
+        public bool CanAddCommandExecute(object? sender)
+        {
+            return mModel.HasLoaded;
+        }
+
+        public void OnDeleteCommandExecuted(object? sender)
+        {
+            //mModel.DeleteConfig(idx);
+
+            OnPropertyChanged("ActorNames");
+            SelectedIndex = 0;
+        }
+
         private void OnExitCommandExecuted(object? sender)
         {
             Environment.Exit(0);
         }
         #endregion
 
+        #region INotifyPropertyChanged Implementation
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+        #endregion
     }
 }
