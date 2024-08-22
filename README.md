@@ -11,6 +11,8 @@ When an enemy actor is killed, the game rolls a random number between 0.00 and 9
 
 Otherwise, the game rolls another random number between 0.00 and 15.99, truncates the value to fit between 0 and 15, and uses it to choose an item from the items listed in the Itemizer under `Loose Items`.
 
+<b>Note</b>: There is an [explicit check](https://github.com/zeldaret/tww/blob/main/src/f_op/f_op_actor_mng.cpp#L1208) in the code for if the current map is `Cave09`, `Cave10`, or `Cave11`. These three maps make up the Savage Labyrinth. Item drops are disabled in the Savage Labyrinth, so the process described above does not take place in any of these maps.
+
 To summarize:
 * How often an item ball drops is determined by a value between 0 and 100. The higher the number, the more often an item ball will appear. The item ball contains <i>all</i> the items in the `Item Ball Contents` section of the Itemizer.
 * If an item ball is not dropped, the game will randomly choose between 16 possible items. The pool of items it can pick from is listed under the `Loose Items` section of the Itemizer.
